@@ -522,13 +522,14 @@ public class TransitionTemperedOSRW extends AbstractOSRW implements LambdaInterf
     }
 
     public double[][] getRecursionKernel() {
-        int dim1 = recursionKernel.length;
+        /*int dim1 = recursionKernel.length;
         int dim2 = recursionKernel[0].length;
         double[][] kernCopy = new double[dim1][];
         for (int i = 0; i < dim1; i++) {
             kernCopy[i] = Arrays.copyOf(recursionKernel[i], dim2);
         }
-        return kernCopy;
+        return kernCopy;*/
+        return recursionKernel;
     }
 
     private void writeTraversal() {
