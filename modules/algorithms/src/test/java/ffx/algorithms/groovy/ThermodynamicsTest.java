@@ -785,10 +785,10 @@ public class ThermodynamicsTest extends PJDependentTest {
         // This code works perfectly on two local machines and yet fails on Travis.
         double currentdUdL = osrwPre.firstLam;
         logger.info(String.format(" Adding an OSRW bias at lambda %8.4g, dU/dL %14.8g", osrw.getLambda(), currentdUdL));
+        osrw.addBias(currentdUdL, x, gOSRWPre);
+        //logger.info(Arrays.deepToString(((TransitionTemperedOSRW) osrw).getRecursionKernel()));
 
         // Wait for the bias to be received by the OSRW object.
-        /*
-        osrw.addBias(currentdUdL, x, gOSRWPre);
         boolean biasReceived = false;
         for (int i = 0; i < 200; i++) {
             try {
@@ -806,15 +806,9 @@ public class ThermodynamicsTest extends PJDependentTest {
             Thread.sleep(5000);
         } catch (InterruptedException ex) {
             logger.warning(" Interrupted at final 5000-msec wait for bias to be added!");
-        }*/
-        boolean biasReceived = true;
-        double[][] kern = ((TransitionTemperedOSRW) osrw).getRecursionKernel();
-        if (osrw.getLambda() == 1.0) {
-            kern[200][135] += 1.0;
-        } else {
-            kern[180][176] += 1.0;
         }
 
+        double[][] kern = ((TransitionTemperedOSRW) osrw).getRecursionKernel();
         logger.info(String.format(" OSRW has received %d counts, with a histogram %d x %d", osrw.getCountsReceived(), kern.length, kern[0].length));
         for (int i = 0; i < kern.length; i++) {
             for (int j = 0; j < kern[i].length; j++) {
