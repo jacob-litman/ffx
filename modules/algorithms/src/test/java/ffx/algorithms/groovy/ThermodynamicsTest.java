@@ -808,8 +808,8 @@ public class ThermodynamicsTest extends PJDependentTest {
             logger.warning(" Interrupted at final 5000-msec wait for bias to be added!");
         }
 
-        logger.info(String.format(" OSRW has received %d counts", osrw.getCountsReceived()));
         double[][] kern = ((TransitionTemperedOSRW) osrw).getRecursionKernel();
+        logger.info(String.format(" OSRW has received %d counts, with a histogram %d x %d", osrw.getCountsReceived(), kern.length, kern[0].length));
         for (int i = 0; i < kern.length; i++) {
             for (int j = 0; j < kern[i].length; j++) {
                 if (kern[i][j] != 0) {
