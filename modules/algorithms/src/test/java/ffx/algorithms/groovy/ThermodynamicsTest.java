@@ -774,10 +774,10 @@ public class ThermodynamicsTest extends PJDependentTest {
         double[] gOSRWPost = new double[nVars];
         double[] gUnderPost = new double[nVars];
 
-        logger.info(" Testing the OSRW potential before bias added.");
-        EnergyResult osrwPre = testGradientSet("Unbiased OSRW", osrw, x, gOSRWPre, 0);
         logger.info(" Testing the underlying CrystalPotential before bias added.");
         EnergyResult underPre = testGradientSet("Unbiased potential",under, x, gUnderPre, 0);
+        logger.info(" Testing the OSRW potential before bias added.");
+        EnergyResult osrwPre = testGradientSet("Unbiased OSRW", osrw, x, gOSRWPre, 0);
 
         // Assert that, before biases, OSRW and underlying potential are equal.
         osrwPre.assertResultsEqual(underPre);
@@ -818,11 +818,14 @@ public class ThermodynamicsTest extends PJDependentTest {
             }
         }
         assertTrue(" No bias was received by the OSRW over 20 seconds!", biasReceived);
+        logger.info(" Preliminary OSRW energy...");
+        double prelimE = osrw.energyAndGradient(x, new double[nVars], false);
+        logger.info(String.format(" Energy received: %12.6g", prelimE));
 
-        logger.info(" Testing the OSRW potential after bias added.");
-        EnergyResult osrwPost = testGradientSet("Biased OSRW", osrw, x, gOSRWPost, 1);
         logger.info(" Testing the underlying CrystalPotential after bias added.");
         EnergyResult underPost = testGradientSet("Biased potential", under, x, gUnderPost, 0);
+        logger.info(" Testing the OSRW potential after bias added.");
+        EnergyResult osrwPost = testGradientSet("Biased OSRW", osrw, x, gOSRWPost, 1);
 
         // Assert that bias only affects the OSRW potential, and does affect the OSRW potential.
         underPre.assertResultsEqual(underPost);
