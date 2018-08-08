@@ -1186,7 +1186,6 @@ public class TransitionTemperedOSRW extends AbstractOSRW implements LambdaInterf
             while (true) {
                 try {
                     world.receive(null, recursionCountBuf);
-                    ++countsReceived;
                 } catch (InterruptedIOException ioe) {
                     logger.log(Level.WARNING, " ReceiveThread was interrupted at world.receive; " +
                             "future message passing may be in an error state!", ioe);
@@ -1237,6 +1236,7 @@ public class TransitionTemperedOSRW extends AbstractOSRW implements LambdaInterf
                  * walker.
                  */
                 recursionKernel[walkerLambda][walkerFLambda] += weight;
+                ++countsReceived;
                 if (this.isInterrupted()) {
                     logger.log(Level.FINE, " ReceiveThread was interrupted; ceasing execution");
                     // No pending message receipt, so no warning.
