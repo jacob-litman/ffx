@@ -796,15 +796,15 @@ public class ThermodynamicsTest extends PJDependentTest {
                 logger.warning(String.format(" Interrupted at %d 100-msec wait for bias to be added!", i));
             }
             if (osrw.getCountsReceived() > 0) {
-                logger.fine(String.format(" Required %d 100-msec waits for bias to be added.", i));
+                logger.info(String.format(" Required %d 100-msec waits for bias to be added.", i));
                 biasReceived = true;
                 break;
             }
         }
         try {
-            Thread.sleep(500);
+            Thread.sleep(5000);
         } catch (InterruptedException ex) {
-            logger.warning(" Interrupted at final 500-msec wait for bias to be added!");
+            logger.warning(" Interrupted at final 5000-msec wait for bias to be added!");
         }
         assertTrue(" No bias was received by the OSRW over 20 seconds!", biasReceived);
 
