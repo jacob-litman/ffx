@@ -529,7 +529,7 @@ public class ThermodynamicsTest extends PJDependentTest {
             File srcFile = new File("src/main/java/" + filenames[i]);
             File tempFile = new File(tempDirName + FilenameUtils.getName(filenames[i]));
             FileUtils.copyFile(srcFile, tempFile);
-            logger.info(String.format(" Copied file %s to %s", srcFile, tempFile));
+            logger.fine(String.format(" Copied file %s to %s", srcFile, tempFile));
             copiedFiles[i] = tempFile;
 
             for (String ext : copiedExtensions) {
@@ -537,7 +537,7 @@ public class ThermodynamicsTest extends PJDependentTest {
                 if (srcFile.exists()) {
                     logger.fine(" Copying extension " + ext);
                     tempFile = new File(String.format("%s.%s", FilenameUtils.removeExtension(tempFile.getPath()), ext));
-                    logger.info(String.format(" Copied file %s to %s", srcFile, tempFile));
+                    logger.fine(String.format(" Copied file %s to %s", srcFile, tempFile));
                     FileUtils.copyFile(srcFile, tempFile);
                 }
             }
@@ -786,6 +786,15 @@ public class ThermodynamicsTest extends PJDependentTest {
         double currentdUdL = osrwPre.firstLam;
         logger.info(String.format(" Adding an OSRW bias at lambda %8.4g, dU/dL %14.8g", osrw.getLambda(), currentdUdL));
         osrw.addBias(currentdUdL, x, gOSRWPre);
+        //logger.info(Arrays.deepToString(((TransitionTemperedOSRW) osrw).getRecursionKernel()));
+        double[][] kern = ((TransitionTemperedOSRW) osrw).getRecursionKernel();
+        for (int i = 0; i < kern.length; i++) {
+            for (int j = 0; j < kern[i].length; j++) {
+                if (kern[i][j] != 0) {
+                    logger.info(String.format(" Bias found at %d-%d, value %f", i, j, kern[i][j]));
+                }
+            }
+        }
 
         // Wait for the bias to be received by the OSRW object.
         boolean biasReceived = false;
