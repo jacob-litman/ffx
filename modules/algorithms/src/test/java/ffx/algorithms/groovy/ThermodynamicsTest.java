@@ -787,14 +787,6 @@ public class ThermodynamicsTest extends PJDependentTest {
         logger.info(String.format(" Adding an OSRW bias at lambda %8.4g, dU/dL %14.8g", osrw.getLambda(), currentdUdL));
         osrw.addBias(currentdUdL, x, gOSRWPre);
         //logger.info(Arrays.deepToString(((TransitionTemperedOSRW) osrw).getRecursionKernel()));
-        double[][] kern = ((TransitionTemperedOSRW) osrw).getRecursionKernel();
-        for (int i = 0; i < kern.length; i++) {
-            for (int j = 0; j < kern[i].length; j++) {
-                if (kern[i][j] != 0) {
-                    logger.info(String.format(" Bias found at %d-%d, value %f", i, j, kern[i][j]));
-                }
-            }
-        }
 
         // Wait for the bias to be received by the OSRW object.
         boolean biasReceived = false;
@@ -814,6 +806,16 @@ public class ThermodynamicsTest extends PJDependentTest {
             Thread.sleep(5000);
         } catch (InterruptedException ex) {
             logger.warning(" Interrupted at final 5000-msec wait for bias to be added!");
+        }
+
+        logger.info(String.format(" OSRW has received %d counts", osrw.getCountsReceived()));
+        double[][] kern = ((TransitionTemperedOSRW) osrw).getRecursionKernel();
+        for (int i = 0; i < kern.length; i++) {
+            for (int j = 0; j < kern[i].length; j++) {
+                if (kern[i][j] != 0) {
+                    logger.info(String.format(" Bias found at %d-%d, value %f", i, j, kern[i][j]));
+                }
+            }
         }
         assertTrue(" No bias was received by the OSRW over 20 seconds!", biasReceived);
 

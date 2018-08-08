@@ -1202,6 +1202,10 @@ public class TransitionTemperedOSRW extends AbstractOSRW implements LambdaInterf
                     break;
                 }
 
+                if (countsReceived < 5) {
+                    logger.warning(String.format(" Received a message %s", Arrays.toString(recursionCount)));
+                }
+
                 /**
                  * Check that the FLambda range of the Recursion kernel includes
                  * both the minimum and maximum FLambda value.
