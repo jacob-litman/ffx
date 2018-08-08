@@ -754,6 +754,11 @@ public class ThermodynamicsTest extends PJDependentTest {
         AbstractOSRW osrw = thermo.getOSRW();
         double delG = osrw.lastFreeEnergy();
         assertEquals(String.format(" Test %s: not within tolerance %12.5g", info, feTol), freeEnergy, delG, feTol);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException ex) {
+            logger.info("lulz");
+        }
     }
 
     /**
